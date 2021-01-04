@@ -12,7 +12,7 @@ export default function HomeScreen(props) {
     const userID = props.extraData.id
 
     useEffect(() => {
-        entityRef
+        const unsub = entityRef
             .where("authorID", "==", userID)
             .orderBy('createdAt', 'desc')
             .onSnapshot(
@@ -29,6 +29,10 @@ export default function HomeScreen(props) {
                     console.log(error)
                 }
             )
+
+        return () => {
+            unsub()
+        }
     }, [])
 
     const onAddButtonPress = () => {
